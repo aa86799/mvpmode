@@ -16,15 +16,15 @@ import com.stone.mvp.viewer.IViewer;
  * email  : aa86799@163.com
  * time   : 16/1/31 18 13
  */
-public abstract class BasePresenterActivity<Viewer extends IViewer> extends Activity {
+public abstract class BasePresenterActivity<T extends IViewer> extends Activity {
 
-    protected Viewer mViewer;
+    protected T mViewer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            mViewer = (Viewer) getViewerClass().newInstance();
+            mViewer = (T) getViewerClass().newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -35,10 +35,15 @@ public abstract class BasePresenterActivity<Viewer extends IViewer> extends Acti
 
         setContentView(mViewer.getView());
 
-        onBindView();
+        onBindViewData();
     }
 
-    protected abstract Class<? extends  IViewer> getViewerClass();
+    /**
+     * 抽象方法：由子Activity 决定要使用的IViewer实现类
+     * @return 实际的Viewer实现类的Class
+     */
+    protected abstract Class<T> getViewerClass();
 
-    protected abstract void onBindView();
+
+    protected abstract void onBindViewData();
 }

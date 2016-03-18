@@ -2,9 +2,13 @@ package com.stone.mvp;
 
 import android.graphics.Color;
 
+import com.stone.mvp.adapter.MyAdapter;
 import com.stone.mvp.base.BasePresenterActivity;
 import com.stone.mvp.viewer.IViewer;
 import com.stone.mvp.viewer.MainViewer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * author : stone
@@ -15,13 +19,20 @@ public class MainActivity extends BasePresenterActivity<MainViewer> {
 
 
     @Override
-    protected Class<? extends IViewer> getViewerClass() {
+    protected Class<MainViewer> getViewerClass() {
         return MainViewer.class;
     }
 
     @Override
-    protected void onBindView() {
-        mViewer.mTvTitle.setTextColor(Color.RED);
-        mViewer.mTvTitle.setText("中华人民共和国");
+    protected void onBindViewData() {
+        super.mViewer.mTvTitle.setTextColor(Color.RED);
+        super.mViewer.mTvTitle.setText("随便说点啥吧");
+
+        List<String> datas = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            datas.add("this is item " + i);
+        }
+        MyAdapter adapter = new MyAdapter(this, datas);
+        super.mViewer.mListView.setAdapter(adapter);
     }
 }
